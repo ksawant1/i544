@@ -61,6 +61,7 @@ export default class Validator {
 	out[name] = infos[name].defaultFn();
       }
     }
+    
     return out;
   }
   
