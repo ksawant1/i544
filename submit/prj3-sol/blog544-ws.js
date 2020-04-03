@@ -3,8 +3,11 @@ import cors from 'cors';
 import express from 'express';
 import bodyParser from 'body-parser';
 import querystring from 'querystring';
-
+import Blog544 from "./blog544.js";
+import Data from "./data.js"
 import BlogError from './blog-error.js';
+//import {remove} from "mongodb";
+
 
 const OK = 200;
 const CREATED = 201;
@@ -15,6 +18,7 @@ const SERVER_ERROR = 500;
 
 export default function serve(port, meta, model) {
   const app = express();
+  const hateoasLinker = require('express-hateoas-links');
   app.locals.port = port;
   app.locals.meta = meta;
   app.locals.model = model;
@@ -25,20 +29,116 @@ export default function serve(port, meta, model) {
 }
 
 function setupRoutes(app) {
+  const model = app.locals.model;
+  const meta = app.locals.meta;
   app.use(cors());
   app.use(bodyParser.json());
   //@TODO
+  app.get('/meta', doList(app));   //A GET handler for meta-information.
+  //app.get('/:type', doListCategory(app)); //A GET handler for paging through objects of a particular category.
+  app.get('/:type/:id', doGet(app)); //A GET handler for returning a specific blog object in a particular category.
+  app.delete(`/:type/:id`, doDelete(app));  //A DELETE handler for deleting a specific blog object in a particular category.
+  app.patch(`/:type/:id`, doUpdate(app)); //A PATCH handler for updating a specific blog object in a particular category.
+app.post(`/:type`,doCreate(app)); //A POST handler for creating a new object in a particular category.
 }
 
 /****************************** Handlers *******************************/
 
 //@TODO
+function doList(app) {
+  return errorWrap(function(req, res) {
+
+    try {
+      res.json(app.locals.meta, { rel: "self", href: "http://localhost:2345/meta", name: "self" });
+    }
+    catch (err) {
+      const mapped = mapError(err);
+      res.status(mapped.status).json(mapped);
+    }
+  });
+}
+
+/*function doList(app) {
+  return errorWrap(async function(req, res) {
+    const q = req.query || {};
+    try {
+      const results = await app.locals.model.read(q);
+      res.json(results);
+    }
+    catch (err) {
+      const mapped = mapError(err);
+      res.status(mapped.status).json(mapped);
+    }
+  });
+}*/
+function doGet(app) {
+  return errorWrap(async function(req, res) {
+    try {
+
+      const id = req.params.id;
+      const category=req.params.type;
+      const results = await app.locals.model.find(category,{id:id});
+      await res.json(results);
+      }
+
+    catch(err) {
+      const mapped = mapError(err);
+      res.status(mapped.status).json(mapped);
+    }
+
+})}
+function doDelete(app) {
+  return errorWrap(async function(req, res) {
+    try {
+      const id = req.params.id;
+      const category=req.params.type;
+     const results = await app.locals.model.remove(category,{id:id});
+      res.send(OK);
+
+    }
+    catch(err) {
+      const mapped = mapError(err);
+      res.status(mapped.status).json(mapped);
+    }
+  });
+}
+function doUpdate(app) {
+  return errorWrap(async function(req, res) {
+    try {
+      const patch = Object.assign({}, req.body);
+      patch.id = req.params.id;
+      const category=req.params.type;
+      const results = await app.locals.model.update(category,patch);
+      res.send(req.body);
+    }
+    catch(err) {
+      const mapped = mapError(err);
+      res.status(mapped.status).json(mapped);
+    }
+  });
+}
+function doCreate(app) {
+  return errorWrap(async function(req, res) {
+    try {
+      const obj = req.body;
+      const category=req.params.type;
+      const results = await app.locals.model.create(category,obj);
+      res.append('Location', requestUrl(req) + '/' + obj.id);
+      res.sendStatus(CREATED);
+    }
+    catch(err) {
+      const mapped = mapError(err);
+      res.status(mapped.status).json(mapped);
+    }
+  });
+}
+
 
 /**************************** Error Handling ***************************/
 
 /** Ensures a server error results in nice JSON sent back to client
  *  with details logged on console.
- */ 
+ */
 function doErrors(app) {
   return async function(err, req, res, next) {
     res.status(SERVER_ERROR);
