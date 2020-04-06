@@ -18,7 +18,7 @@ const SERVER_ERROR = 500;
 
 export default function serve(port, meta, model) {
   const app = express();
-  const hateoasLinker = require('express-hateoas-links');
+  //const hateoasLinker = require('express-hateoas-links');
   app.locals.port = port;
   app.locals.meta = meta;
   app.locals.model = model;
@@ -34,8 +34,9 @@ function setupRoutes(app) {
   app.use(cors());
   app.use(bodyParser.json());
   //@TODO
-  app.get('/meta', doList(app));   //A GET handler for meta-information.
-  //app.get('/:type', doListCategory(app)); //A GET handler for paging through objects of a particular category.
+  app.get('/', doList(app));
+  app.get('/meta', doListMeta(app));   //A GET handler for meta-information.
+  app.get('/:type', doListCategory(app)); //A GET handler for paging through objects of a particular category.
   app.get('/:type/:id', doGet(app)); //A GET handler for returning a specific blog object in a particular category.
   app.delete(`/:type/:id`, doDelete(app));  //A DELETE handler for deleting a specific blog object in a particular category.
   app.patch(`/:type/:id`, doUpdate(app)); //A PATCH handler for updating a specific blog object in a particular category.
@@ -44,12 +45,38 @@ app.post(`/:type`,doCreate(app)); //A POST handler for creating a new object in 
 
 /****************************** Handlers *******************************/
 
+
 //@TODO
 function doList(app) {
-  return errorWrap(function(req, res) {
+  return errorWrap(async function(req, res) {
 
     try {
-      res.json(app.locals.meta, { rel: "self", href: "http://localhost:2345/meta", name: "self" });
+      const results= [];
+      const results1=app.locals.meta;
+      const count=Object.keys(results1);
+      results.push({links:{"href" :`http://localhost:2345`, "name":"self", "rel":"self"}});
+      results.push({links:{"href" :`http://localhost:2345/meta`, "name":"meta", "rel":"describedby"}});
+      for (var key in results1) {
+        if (results1.hasOwnProperty(key)) {
+      results.push({links:{"href" :`http://localhost:2345/${key}`, "name":`${key}`, "rel":"collection"}});
+          }
+      }
+      await res.json(results);
+    }
+    catch (err) {
+      const mapped = mapError(err);
+      res.status(mapped.status).json(mapped);
+    }
+  });
+}
+function doListMeta(app) {
+  return errorWrap(async function(req, res) {
+
+    try {
+      const results= app.locals.meta;
+      const resultsArray = Object.keys(results).map(i => results[i])
+       resultsArray.push({links: [{"href": `http://localhost:2345${req.originalUrl}`, "name": "self", "rel": "self"}]});
+      await res.json(resultsArray);
     }
     catch (err) {
       const mapped = mapError(err);
@@ -58,19 +85,59 @@ function doList(app) {
   });
 }
 
-/*function doList(app) {
+function doListCategory(app) {
   return errorWrap(async function(req, res) {
     const q = req.query || {};
     try {
-      const results = await app.locals.model.read(q);
-      res.json(results);
-    }
+      const category=req.params.type;
+      const filter=req.query;
+      let right=req.query.firstName;
+      let left=parseInt(req.query._index);
+      const results = await app.locals.model.find(category,filter);
+
+      if(results.length>0){
+        const count = results.forEach(function (element) {
+          element.links = {"href" :`http://localhost:2345/${category}/${element.id}`, "name":"self", "rel":"self"};
+        });
+        if(req.query.firstName && !(req.query._count) && !(req.query._index) ){
+          results.push({links:[{"href" :`http://localhost:2345${req.originalUrl}`, "name":"self", "rel":"self"}]});
+          results.reverse();
+          await res.json(results);
+
+        }
+
+        if(req.query._count>0 && req.query._index>0){
+          results.push({ "prev" : `${parseInt(req.query._count)-parseInt(req.query._count)}` ,"next" : `${parseInt(req.query._count)+parseInt(req.query._count)}`,links:[{"href" :`http://localhost:2345${req.originalUrl}`, "name":"self", "rel":"self"},{"href" :`http://localhost:2345/users?firstName=Harry&_count=2&_index=${parseInt(req.query._count)+parseInt(req.query._count)}`, "name":"next", "rel":"next"},{"href" :`http://localhost:2345/users?firstName=Harry&_count=2&_index=${parseInt(req.query._count)-parseInt(req.query._count)}`, "name":"prev", "rel":"prev"}]});
+          results.reverse();
+          await res.json(results);
+        }
+
+      if(req.query._count && req.query.firstName){
+        results.push({links:[{"href" :`http://localhost:2345${req.originalUrl}`, "name":"self", "rel":"self"},{"href" :`http://localhost:2345/${req.originalUrl}&_index=${req.query._count}`, "name":"next", "rel":"next"}], "next" : `${req.query._count}`});
+        results.reverse();
+        await res.json(results);
+
+      }
+
+      if(req.query._index>0){
+        results.push({links:[{"href" :`http://localhost:2345${req.originalUrl}`, "name":"self", "rel":"self"},{"href" :`http://localhost:2345/${category}?&_index=${left+5}`, "name":"next", "rel":"next"}], "next" : "5"});
+        await res.json(results);
+      }
+      else {
+
+      results.push({links:[{"href" :`http://localhost:2345${req.originalUrl}`, "name":"self", "rel":"self"},{"href" :`http://localhost:2345/users?_index=${results.length}`, "name":"next", "rel":"next"}], "next" : `${results.length}`});
+      await res.json(results);
+      }
+}
+}
+
     catch (err) {
       const mapped = mapError(err);
       res.status(mapped.status).json(mapped);
     }
   });
-}*/
+}
+
 function doGet(app) {
   return errorWrap(async function(req, res) {
     try {
@@ -78,6 +145,10 @@ function doGet(app) {
       const id = req.params.id;
       const category=req.params.type;
       const results = await app.locals.model.find(category,{id:id});
+      if(results.length>0) {
+        results.push({links: [{"href": `http://localhost:2345${req.originalUrl}`, "name": "self", "rel": "self"}]});
+        results.reverse();
+      }
       await res.json(results);
       }
 
@@ -131,6 +202,12 @@ function doCreate(app) {
       res.status(mapped.status).json(mapped);
     }
   });
+}
+
+function returnLinks(results) {
+var res=results;
+
+ return res.push([{events: ["work", "touched tree", "pizza", "running", "television"], squirrel: false}]);
 }
 
 
