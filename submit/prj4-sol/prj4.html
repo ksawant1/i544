@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="../../assets/styles/article.css" rel="stylesheet" type="text/css" /> 
+    <title>CS 544: Project 4</title>
+    <link href="prj4/hl-fine_blue.css" rel="stylesheet"/>
+  </head>
+  <body>
+    <nav>
+      <ul>
+	<li><a href="../../index.html" class="material-icons">house</a></li>
+	<li><a href="../../docs/index.html">Docs</a></li>
+	<li><a href="../../exams-quizzes/index.html">Exams &amp; Quizzes</a></li>
+	<li><a href="../../exercises/index.html">Exercises</a></li>
+	<li><a href="../../hws/index.html">Homeworks</a></li>
+	<li><a href="../../misc/index.html">Misc</a></li>
+	<li><a href="../../online/index.html">Online</a></li>
+	<li><a href="../../projects/index.html">Projects</a></li>
+	<li><a href="../../slides/index.html">Slides</a></li>
+      </ul>
+    </nav>
+    <div class="content">
+      <section data-coord="prj4.umt:1:0"><h1 data-coord="prj4.umt:1:0">Project 4</h1><p data-coord="prj4.umt:3:0"><strong data-coord="prj4.umt:3:0">Due</strong>: May 5, by 11:59p.  <strong data-coord="prj4.umt:3:26">No late submissions</strong>
+</p><p data-coord="prj4.umt:5:0"><strong data-coord="prj4.umt:5:0">Important Reminder</strong>: As per the course <em data-coord="prj4.umt:5:110"><a href="../../misc/academic-honesty-statement/academic-honesty-policy.html" data-coord="prj4.umt:5:110">Academic Honesty Statement</a></em>,
+cheating of any kind will minimally result in your letter grade
+for the entire course being reduced by one level.
+</p><p data-coord="prj4.umt:9:0">This document first provides the aims of this project.  It then lists
+the requirements as explicitly as possible.  This is followed by a log
+which should help you understand the requirements.  Finally, it
+provides some hints as to how those requirements can be met.
+</p><section data-coord="prj4.umt:14:0"><h2 data-coord="prj4.umt:14:0">Aims</h2><p data-coord="prj4.umt:17:0">The aims of this project are as follows:
+</p><ul data-coord="prj4.umt:19:0"><li data-coord="prj4.umt:19:0"><p data-coord="prj4.umt:19:4">To use web services from a program.
+</p></li><li data-coord="prj4.umt:21:0"><p data-coord="prj4.umt:21:4">To familiarize you to the mustache templating system.
+</p></li><li data-coord="prj4.umt:23:0"><p data-coord="prj4.umt:23:4">To give you some exposure to programming within a browser.
+</p></li></ul></section><section data-coord="prj4.umt:28:0"><h2 data-coord="prj4.umt:28:0">Requirements</h2><p data-coord="prj4.umt:32:0">You must push a <samp data-coord="prj4.umt:32:16">submit/prj4-sol</samp> directory to your github
+repository such that typing <samp data-coord="prj4.umt:32:87">npm ci</samp> within that directory is
+sufficient to run a web server using <samp data-coord="prj4.umt:32:158">index.mjs</samp>.
+</p><pre data-coord="prj4.umt:37:0">$ node index.mjs PORT WS_URL
+</pre><p data-coord="prj4.umt:40:0">where
+</p><dl data-coord="prj4.umt:42:0"><dt data-coord="prj4.umt:42:2"> <samp data-coord="prj4.umt:42:1">PORT</samp> </dt><dd data-coord="prj4.umt:43:0"><p data-coord="prj4.umt:43:4">Specifies the port number at which the server should
+listen for incoming HTTP requests.
+</p></dd><dt data-coord="prj4.umt:46:2"> <samp data-coord="prj4.umt:46:1">WS_URL</samp> </dt><dd data-coord="prj4.umt:47:0"><p data-coord="prj4.umt:47:4">Specifies a URL where web services for <em data-coord="prj4.umt:47:68"><a href="../prj3/prj3.html" data-coord="prj4.umt:47:68">Project 3</a></em> are running.
+</p></dd></dl><p data-coord="prj4.umt:50:0">You are being provided with an <samp data-coord="prj4.umt:50:31">index.mjs</samp> which provides the required
+command-line behavior.  What you specifically need to do is add code
+to the provided <a href="./prj4-sol/blog544-ss.mjs?colorize=true" data-coord="prj4.umt:50:199">blog544-ss.mjs</a> source file to have it produce HTML for the
+following pages:
+</p><dl data-coord="prj4.umt:56:0"><dt data-coord="prj4.umt:56:2"> <strong data-coord="prj4.umt:56:1">Home page</strong> </dt><dd data-coord="prj4.umt:57:0"><p data-coord="prj4.umt:57:4">URL <samp data-coord="prj4.umt:57:8">/</samp>. A page which should provide links (with descriptive text)
+to link to the <strong data-coord="prj4.umt:57:90">list users</strong> and <strong data-coord="prj4.umt:57:107">search users</strong> pages. 
+</p></dd><dt data-coord="prj4.umt:60:2"> <strong data-coord="prj4.umt:60:1">List Users</strong> </dt><dd data-coord="prj4.umt:61:0"><p data-coord="prj4.umt:61:4">URL not specified.  This page should list users.  It should be
+possible to filter the displayed users using query parameters.
+The information displayed for each user should include the user
+id, user's name (formed by separating the first and last names by
+a single space), email, roles, creation time and update time.  The
+latter two dates must be displayed in <samp data-coord="prj4.umt:61:385">mm/dd/yyyy</samp> format.
+</p><p data-coord="prj4.umt:68:5">The page should provide links to allow scrolling back-and-forth
+within the users.
+</p></dd><dt data-coord="prj4.umt:71:2"> <strong data-coord="prj4.umt:71:1">Search Users</strong> </dt><dd data-coord="prj4.umt:72:0"><p data-coord="prj4.umt:72:4">URL not specified.  This page should display a form to allow
+searching for a user by user id, email, first name, last name and
+creation time.  The creation time must be specified as an
+ISO-8601 date-time.
+</p><ul data-coord="prj4.umt:77:0"><li data-coord="prj4.umt:77:0"><p data-coord="prj4.umt:77:8">As soon as the user id widget is filled in, a suitable error
+should be displayed if there is no user for that user id.
+This should happen immediately once focus leaves the user id
+widget without requiring a form submission.
+</p></li><li data-coord="prj4.umt:82:0"><p data-coord="prj4.umt:82:8">If the form is submitted without any fields specified, then a
+suitable error should be displayed.
+</p></li><li data-coord="prj4.umt:85:0"><p data-coord="prj4.umt:85:8">If the value of a form widget is incorrect when the form is
+submitted, then the form should be redisplayed with a suitable
+error displayed, preferably next to the form widget.  The
+widget values <strong data-coord="prj4.umt:85:227">must</strong> be retained across the form submission.
+</p></li><li data-coord="prj4.umt:90:0"><p data-coord="prj4.umt:90:8">If there are no results for the specified search parameters,
+then a suitable error message should be displayed with widget
+values retained across the form submission.
+</p></li></ul><p data-coord="prj4.umt:94:4">If there are no errors, then the list users page should be
+displayed showing the users which meet the search criteria.
+Subsequent scrolling of the list users page should only scroll
+through the results specified by the search parameters.
+</p></dd></dl><p data-coord="prj4.umt:99:0">Both the list users and search users pages should be displayed with
+a footer containing the same links as the home page.
+</p><p data-coord="prj4.umt:102:0">If there are any internal errors, then a suitable error message
+should be shown.
+</p><p data-coord="prj4.umt:106:0">A working version of the project is available at
+<em data-coord="prj4.umt:106:83"><a href="http://zdu.binghamton.edu:2346" data-coord="prj4.umt:106:83">&lt;http://zdu.binghamton.edu:2346&gt;</a></em> (as usual, this can only be
+reached from within the CS network).
+</p></section><section data-coord="prj4.umt:110:0"><h2 data-coord="prj4.umt:110:0">Provided Files</h2><p data-coord="prj4.umt:113:0">The <a href="./prj4-sol" data-coord="prj4.umt:113:18">prj4-sol</a> directory contains a start for your
+project.  It contains the following files:
+</p><dl data-coord="prj4.umt:116:0"><dt data-coord="prj4.umt:116:4"> <a href="./prj4-sol/blog544-ss.mjs?colorize=true" data-coord="prj4.umt:116:44">blog544-ss.mjs</a></dt><dd data-coord="prj4.umt:117:0"><p data-coord="prj4.umt:117:6">This skeleton file constitutes the guts of your project.  You
+will need to flesh out the skeleton, adding code to meet the
+project requirements.  You should feel free to add any auxiliary
+function, method definitions or even auxiliary files as
+required.
+</p></dd><dt data-coord="prj4.umt:123:4"> <a href="./prj4-sol/blog544-ws.mjs?colorize=true" data-coord="prj4.umt:123:44">blog544-ws.mjs</a></dt><dd data-coord="prj4.umt:124:0"><p data-coord="prj4.umt:124:6">A wrapper which calls Project 3 web services.  You should
+need to change this file.
+</p></dd><dt data-coord="prj4.umt:127:4"> <a href="./prj4-sol/index.mjs?colorize=true" data-coord="prj4.umt:127:39">index.mjs</a></dt><dd data-coord="prj4.umt:128:0"><p data-coord="prj4.umt:128:6">This file provides the complete command-line behavior which is
+required by your program.  It requires
+<a href="./prj4-sol/blog544-ss.mjs?colorize=true" data-coord="prj4.umt:128:163">blog544-ss.mjs</a> and
+<a href="./prj4-sol/blog544-ws.mjs?colorize=true" data-coord="prj4.umt:128:231">blog544-ws.mjs.</a>
+</p></dd><dt data-coord="prj4.umt:133:4"> <a href="./prj4-sol/statics/css/style.css" data-coord="prj4.umt:133:37">style.css</a></dt><dd data-coord="prj4.umt:134:0"><p data-coord="prj4.umt:134:6">A style sheet which can be used to make your project look
+somewhat reasonable.
+</p></dd><dt data-coord="prj4.umt:137:4"> <a href="./prj4-sol/README" data-coord="prj4.umt:137:22">README</a></dt><dd data-coord="prj4.umt:138:0"><p data-coord="prj4.umt:138:6">A README file which must be submitted along with your project.
+It contains an initial header which you must complete (replace
+the dummy entries with your name, B-number and email address at
+which you would like to receive project-related email).  After
+the header you may include any content which you would like read
+during the grading of your project.
+</p></dd></dl></section><section data-coord="prj4.umt:146:0"><h2 data-coord="prj4.umt:146:0">Project 3 Solution</h2><p data-coord="prj4.umt:149:0">The <a href="../prj3-sol" data-coord="prj4.umt:149:19">solution</a> to <em data-coord="prj4.umt:149:52"><a href="../prj3/prj3.html" data-coord="prj4.umt:149:52">Project 3</a></em> has
+been modified slightly to facilitate this project:
+</p><ul data-coord="prj4.umt:152:0"><li data-coord="prj4.umt:152:0"><p data-coord="prj4.umt:152:4">List results contain a <samp data-coord="prj4.umt:152:27">next</samp> field only if there are subsequent
+results.
+</p></li><li data-coord="prj4.umt:155:0"><p data-coord="prj4.umt:155:4">Validation errors are reported as an <samp data-coord="prj4.umt:155:41">errors</samp> list within the JSON
+of an error response.  Each object within the <samp data-coord="prj4.umt:155:121">errors</samp> list has
+<samp data-coord="prj4.umt:155:143">name</samp>, <samp data-coord="prj4.umt:155:151">code</samp> and <samp data-coord="prj4.umt:155:162">message</samp> properties.  The <samp data-coord="prj4.umt:155:189">name</samp> gives the
+name of the widget causing the error, <samp data-coord="prj4.umt:155:248">code</samp> is the application
+error code and <samp data-coord="prj4.umt:155:293">message</samp> is the error message.
+</p></li></ul><p data-coord="prj4.umt:161:0">The project 3 solution is running at
+<em data-coord="prj4.umt:161:71"><a href="http://zdu.binghamton.edu:2345" data-coord="prj4.umt:161:71">&lt;http://zdu.binghamton.edu:2345&gt;</a></em> (available only from within
+the CS network).
+</p><p data-coord="prj4.umt:165:0">You can view the behavior of the <samp data-coord="prj4.umt:165:33">next</samp> field using the following
+queries:
+</p><ul data-coord="prj4.umt:168:0"><li data-coord="prj4.umt:168:0"><p data-coord="prj4.umt:168:4">The query at URL <a href="http://zdu.binghamton.edu:2345/users" data-coord="prj4.umt:168:61">users</a>
+which allows scrolling back-and-forth among all users.  Note
+the <samp data-coord="prj4.umt:168:140">next</samp> and <samp data-coord="prj4.umt:168:151">prev</samp> properties.
+</p></li><li data-coord="prj4.umt:172:0"><p data-coord="prj4.umt:172:4">The query at URL
+<a href="http://zdu.binghamton.edu:2345/users?firstName=Adrian" data-coord="prj4.umt:172:86">users?firstName=Adrian</a> which does not produce any <samp data-coord="prj4.umt:172:136">next</samp> and
+<samp data-coord="prj4.umt:172:151">prev</samp> properties since there are only 3 results.
+</p></li><li data-coord="prj4.umt:177:0"><p data-coord="prj4.umt:177:4">The query at URL
+<a href="http://zdu.binghamton.edu:2345/users?firstName=Harry" data-coord="prj4.umt:177:85">users?firstName=Harry</a> which does produce a limited number of
+scrolled results (scroll through the results using <samp data-coord="prj4.umt:177:201">links[*].url</samp>.
+Note the absence of the <samp data-coord="prj4.umt:177:245">next</samp> property within the last result and
+the absence of the <samp data-coord="prj4.umt:177:311">prev</samp> property within the first result.
+</p></li></ul><p data-coord="prj4.umt:184:0">You can view the behavior of the <samp data-coord="prj4.umt:184:33">errors</samp> property using
+the following queries:
+</p><ul data-coord="prj4.umt:187:0"><li data-coord="prj4.umt:187:0"><p data-coord="prj4.umt:187:4">The query at <a href="http://zdu.binghamton.edu:2345/users?creationTime=2000" data-coord="prj4.umt:187:79">users?creationTime=2020</a> should produce a bad ISO 8601 datetime error.
+</p></li><li data-coord="prj4.umt:190:0"><p data-coord="prj4.umt:190:4">The query at
+<a href="http://zdu.binghamton.edu:2345/users?creationTime=2000&amp;email=xx" data-coord="prj4.umt:190:92">users?creationTime=2020&amp;email=xx</a> should produce a bad ISO 8601
+datetime and a bad email error.
+</p></li></ul></section><section data-coord="prj4.umt:196:0"><h2 data-coord="prj4.umt:196:0">Hints</h2><p data-coord="prj4.umt:199:0">When working on this project, use <strong data-coord="prj4.umt:199:34">view source</strong> on the pages
+of the example web site to get some idea of how to construct
+your HTML. Though the JavaScript on the example web site
+has been obfuscated, you can try viewing it to get some hints.
+</p><p data-coord="prj4.umt:204:0">The following steps are not prescriptive in that you may choose to
+ignore them as long as you meet all project requirements.
+</p><ol data-coord="prj4.umt:207:0"><li data-coord="prj4.umt:207:0"><p data-coord="prj4.umt:207:4">Read the project requirements thoroughly.  Look at the
+<em data-coord="prj4.umt:207:97"><a href="http://zdu.binghamton.edu:2346" data-coord="prj4.umt:207:97">example website</a></em> (reachable
+only from within the CS network) to make sure you understand the
+necessary behavior.  Review the material covered in class
+including the <a href="../../slides/users-ss/code/users" data-coord="prj4.umt:207:311">users-ss</a> example
+(note that the <samp data-coord="prj4.umt:207:347">users-ss</samp> example displays several pages and is
+consequently more general than what is needed for this project
+which merely displays 2 pages).
+</p></li><li data-coord="prj4.umt:216:0"><p data-coord="prj4.umt:216:4">The project requirements specifies only the top-level URL <samp data-coord="prj4.umt:216:62">/</samp>.  The
+choice of all other URLs is entirely up to you; decide on what
+those URLs should be.
+</p></li><li data-coord="prj4.umt:220:0"><p data-coord="prj4.umt:220:4">Start your project by creating a <samp data-coord="prj4.umt:220:37">submit/prj4-sol</samp> directory in a
+new <samp data-coord="prj4.umt:220:78">prj4-sol</samp> branch of your <samp data-coord="prj4.umt:220:104">i444</samp> or <samp data-coord="prj4.umt:220:114">i544</samp> directory
+corresponding to your github repository. Change into the newly
+created <samp data-coord="prj4.umt:220:210">prj4-sol</samp> directory and initialize your project by
+running <samp data-coord="prj4.umt:220:274">npm init -y</samp>.
+</p><pre>    $ <span class="hl kwb">cd</span> ~<span class="hl opt">/</span>i?<span class="hl num">44</span>
+    $ git checkout <span class="hl kwb">-b</span> prj4-sol <span class="hl slc">#create new branch</span>
+    $ mkdir <span class="hl kwb">-p</span> submit<span class="hl opt">/</span>prj4-sol <span class="hl slc">#create new dir</span>
+    $ <span class="hl kwb">cd</span> submit<span class="hl opt">/</span>prj4-sol       <span class="hl slc">#enter project dir</span>
+    $ npm init <span class="hl kwb">-y</span>              <span class="hl slc">#initialize project</span></pre><p data-coord="prj4.umt:235:4">This will create a <samp data-coord="prj4.umt:235:23">package.json</samp> file; this file will be
+committed to your repository in the next step.
+</p><p data-coord="prj4.umt:238:4">Note that unlike your previous project, the <samp data-coord="prj4.umt:238:48">"type": "json"</samp>
+addition for <samp data-coord="prj4.umt:238:82">package.json</samp> is no longer necessary as
+we are using the <samp data-coord="prj4.umt:238:144">.mjs</samp> extension for ES6 modules.  
+</p></li><li data-coord="prj4.umt:242:0"><p data-coord="prj4.umt:242:4">Commit into git:
+</p><pre>    $ git add package.json <span class="hl slc">#add package.json to git staging area</span>
+    $ git commit <span class="hl kwb">-m</span> <span class="hl str">&apos;started prj4&apos;</span> <span class="hl slc">#commit locally</span>
+    $ git push <span class="hl kwb">-u</span> origin prj4-sol <span class="hl slc">#push branch with changes</span>
+                                  <span class="hl slc">#to github</span></pre></li><li data-coord="prj4.umt:254:0"><p data-coord="prj4.umt:254:4">Install necessary dependencies using
+</p><pre>    $ npm <span class="hl kwc">install</span> axios body-parser express mustache</pre><p data-coord="prj4.umt:261:4">This will install the library and its dependencies into a
+<samp data-coord="prj4.umt:261:66">node_modules</samp> directory created within your current directory.
+It will also create a <samp data-coord="prj4.umt:261:156">package-lock.json</samp> which must be committed
+into your git repository.
+</p><p data-coord="prj4.umt:266:4">The created <samp data-coord="prj4.umt:266:16">node_modules</samp> directory should <strong data-coord="prj4.umt:266:48">not</strong> be committed to
+git.  You can ensure that it will not be committed by simply
+mentioning it in a <samp data-coord="prj4.umt:266:158">.gitignore</samp> file.  You should have already
+taken care of this if you followed the
+<a href="../../misc/git-setup/git-setup.html" data-coord="prj4.umt:266:288">directions</a> provided when
+setting up github.  If you have not already done so, please add a
+line containing simply <samp data-coord="prj4.umt:266:410">node_modules</samp> to a <samp data-coord="prj4.umt:266:430">.gitignore</samp> file at
+the top-level of your <samp data-coord="prj4.umt:266:477">i444</samp> or <samp data-coord="prj4.umt:266:487">i544</samp> github project.
+</p></li><li data-coord="prj4.umt:276:0"><p data-coord="prj4.umt:276:4">Commit your changes:
+</p><pre>    $ git add package-lock.json
+    $ git commit <span class="hl kwb">-a -m</span> <span class="hl str">&apos;added package-lock&apos;</span>
+    $ git push</pre></li><li data-coord="prj4.umt:285:0"><p data-coord="prj4.umt:285:4">Copy the provided files into your project directory:
+</p><pre data-coord="prj4.umt:288:0">    $ cp -pr $HOME/cs544/projects/prj4/prj4-sol/* .
+</pre><p data-coord="prj4.umt:291:4">This should copy in the <samp data-coord="prj4.umt:291:28">README</samp> template, the <samp data-coord="prj4.umt:291:51">index.mjs</samp>, the
+<samp data-coord="prj4.umt:291:72">blog544-ss.mjs</samp> skeleton file, and the <samp data-coord="prj4.umt:291:112">blog544-ws.mjs</samp>
+web-service wrapper into your project directory.
+</p></li><li data-coord="prj4.umt:296:0"><p data-coord="prj4.umt:296:4">You should now be able to get a usage message and start the server:
+</p><pre>    $ node index.mjs
+    usage<span class="hl opt">:</span> index.mjs PORT WS_URL    
+    $ node index.mjs <span class="hl num">2346</span> http<span class="hl opt">://</span>zdu.binghamton.edu<span class="hl opt">:</span><span class="hl num">2345</span>
+    listening on port <span class="hl num">2346</span></pre><p data-coord="prj4.umt:306:4">The server will be listening for incoming requests; you can
+stop it by using ^C.
+</p></li><li data-coord="prj4.umt:310:0"><p data-coord="prj4.umt:310:4">Replace the <samp data-coord="prj4.umt:310:16">XXX</samp> entries in the <samp data-coord="prj4.umt:310:37">README</samp> template.
+</p></li><li data-coord="prj4.umt:312:0"><p data-coord="prj4.umt:312:4">Commit your project to github:
+</p><pre data-coord="prj4.umt:315:0">    $ git add .
+    $ git commit -a -m 'set up prj4 files'
+    $ git push
+</pre></li><li data-coord="prj4.umt:320:0"><p data-coord="prj4.umt:320:4">Add a <samp data-coord="prj4.umt:320:10">index.html</samp> file in the <samp data-coord="prj4.umt:320:35">statics</samp> directory.  This
+should contain the HTML for the home page.  Test by starting
+up your server as above, and pointing a browser to <samp data-coord="prj4.umt:320:182">/</samp>.
+</p></li><li data-coord="prj4.umt:324:0"><p data-coord="prj4.umt:324:4">Look briefly at the code for the <samp data-coord="prj4.umt:324:37">blog544-ss.mjs</samp> web services
+wrapper file to understand the single <samp data-coord="prj4.umt:324:109">list()</samp> method which
+can be used for listing users by specifying <samp data-coord="prj4.umt:324:179">category</samp> as
+<samp data-coord="prj4.umt:324:197">users</samp>.
+</p></li><li data-coord="prj4.umt:329:0"><p data-coord="prj4.umt:329:4">Open the copy of the <samp data-coord="prj4.umt:329:25">blog544-ss.mjs</samp> skeleton file in your
+project directory.  It contains code to start the web server, the
+start of a routing function, error handling code and some utility
+code.  It does not contain code for any handlers.
+</p></li><li data-coord="prj4.umt:334:0"><p data-coord="prj4.umt:334:4">Set up routes for listing users and searching users.  Note that
+search is a safe and idempotent operation.
+</p></li><li data-coord="prj4.umt:337:0"><p data-coord="prj4.umt:337:4">Create dummy handlers for all the handlers you specified
+when setting up your routes.  Add <samp data-coord="prj4.umt:337:99">console.log()</samp> to
+each handler and verify that your handlers are getting
+run when you access the corresponding URL.
+</p></li><li data-coord="prj4.umt:342:0"><p data-coord="prj4.umt:342:4">Add code to the list users handler.  For now, simply call
+the web service wrapper <samp data-coord="prj4.umt:342:90">list()</samp> method passing across
+any query parameters.  Simply console.log() the
+output of the web service.
+</p></li><li data-coord="prj4.umt:347:0"><p data-coord="prj4.umt:347:4">The returned user information cannot be directly rendered
+by mustache.  Build a view model better suited for
+rendering and <samp data-coord="prj4.umt:347:135">console.log()</samp> it.  Do not bother with
+the next and previous scrolling controls.
+</p></li><li data-coord="prj4.umt:352:0"><p data-coord="prj4.umt:352:4">Create a mustache template for the list users page in a
+<samp data-coord="prj4.umt:352:64">templates</samp> directory.  If you are using the provided <samp data-coord="prj4.umt:352:118">style.css</samp>
+stylesheet, you should simply stuff the results into a HTML
+<samp data-coord="prj4.umt:352:198">&lt;table&gt;</samp>.  Use the provided <samp data-coord="prj4.umt:352:227">doMustache()</samp> utility to
+render the template.  Test.
+</p><p data-coord="prj4.umt:358:4">It is probably a bad idea to advance to the next step until you
+have this step working.
+</p></li><li data-coord="prj4.umt:361:0"><p data-coord="prj4.umt:361:4">Update the view model for the scroll controls.  To produce a
+scroll control, the view model will need to contain something
+which can be tested by mustache using a <samp data-coord="prj4.umt:361:175">{{#...}} ... {{/...}}</samp>
+section.  A <samp data-coord="prj4.umt:361:215">next</samp> control should be generated only if there is a
+value for <samp data-coord="prj4.umt:361:283">next</samp> in the web service results; similarly for <samp data-coord="prj4.umt:361:332">prev</samp>.
+</p><p data-coord="prj4.umt:367:4">You will find node's
+<a href="https://nodejs.org/docs/latest-v13.x/api/querystring.html" data-coord="prj4.umt:367:94">querystring</a> invaluable to build up a query string for the scroll
+links.  Simply merge a <samp data-coord="prj4.umt:367:186">_index</samp> into the query parameters for the
+request, and then call <samp data-coord="prj4.umt:367:256">querystring.stringify()</samp> on the merged
+object.
+</p><p data-coord="prj4.umt:374:4">The provided stylesheet depends on the scroll controls being under
+an element having class <samp data-coord="prj4.umt:374:99">scroll</samp>.  Set up each individual control
+as an <samp data-coord="prj4.umt:374:151">&lt;a&gt;</samp> anchor element having a <samp data-coord="prj4.umt:374:181">rel</samp> attribute of <samp data-coord="prj4.umt:374:200">next</samp> and
+<samp data-coord="prj4.umt:374:215">prev</samp> respectively.
+</p></li><li data-coord="prj4.umt:379:0"><p data-coord="prj4.umt:379:4">Set up a template for the search users page.  The provided style
+sheet uses grid layout for the form controls.  It assumes that
+each wiget consists of a pair containing a label for the widget
+and the control for the widget.  The elements of this pair must be
+<strong data-coord="prj4.umt:379:279">direct descendants</strong> of the <samp data-coord="prj4.umt:379:307">form</samp> element.
+</p><p data-coord="prj4.umt:385:4">Modify your search handler to render this template when the
+search URL is hit.
+</p></li><li data-coord="prj4.umt:388:0"><p data-coord="prj4.umt:388:4">Add code for a search submission.  Note that a search submission
+will have a value for the widget being used to submit the form.
+</p><ol data-coord="prj4.umt:391:0"><li data-coord="prj4.umt:391:0"><p data-coord="prj4.umt:391:8">Get the query parameters and verify that there is at least one
+parameter other than the submitting control which has a
+non-empty value.  If that is not the case, redisplay the page
+with a suitable error message.
+</p></li><li data-coord="prj4.umt:397:0"><p data-coord="prj4.umt:397:8">Call the web service wrapper <samp data-coord="prj4.umt:397:37">list()</samp> method passing on the 
+query parameters.
+</p></li><li data-coord="prj4.umt:400:0"><p data-coord="prj4.umt:400:8">If the results are empty, display a suitable error message.
+</p></li><li data-coord="prj4.umt:402:0"><p data-coord="prj4.umt:402:8">If the results are non-empty, then redirect to the users list
+page passing on the query parameters.
+</p></li><li data-coord="prj4.umt:405:0"><p data-coord="prj4.umt:405:8">If the web service throws an error, catch that error.
+If the error contains validation errors, then redisplay
+the page with the validation errors.  If the error is
+not recognizable as containing validation errors, then
+redisplay the page with some kind of generic <em data-coord="prj4.umt:405:283">server
+	error</em> message and log the full error on the console.
+</p></li></ol></li><li data-coord="prj4.umt:412:0"><p data-coord="prj4.umt:412:4">The requirement that the user id be checked before submitting
+the search form implies the use of JavaScript within the
+browser.
+</p><p data-coord="prj4.umt:416:4">Modify your user list handler to return the JSON produced
+by the web services when a particular parameter is set.
+</p><p data-coord="prj4.umt:419:4">Add a <samp data-coord="prj4.umt:419:10">&lt;script&gt;</samp> element to the search template to pull in a
+JavaScript file from the <samp data-coord="prj4.umt:419:94">statics</samp> directory.  Since the required
+JavaScript is rather trivial, it is sufficient to directly use the
+browser's DOM without any additional libraries.
+</p><ol data-coord="prj4.umt:424:0"><li data-coord="prj4.umt:424:0"><p data-coord="prj4.umt:424:8">Use an IIFE to enclose all your code.
+</p></li><li data-coord="prj4.umt:426:0"><p data-coord="prj4.umt:426:8">Get hold of the user id widget <samp data-coord="prj4.umt:426:39">element</samp> using
+<samp data-coord="prj4.umt:426:63">document.getElementById()</samp>.
+</p></li><li data-coord="prj4.umt:430:0"><p data-coord="prj4.umt:430:8">Add a listener to that element using
+<samp data-coord="prj4.umt:430:53">element.addListener(handler)</samp>.
+</p></li><li data-coord="prj4.umt:433:0"><p data-coord="prj4.umt:433:8">The <samp data-coord="prj4.umt:433:12">handler()</samp> function will be called with
+an <samp data-coord="prj4.umt:433:57">event</samp> as its first argument.  Use <samp data-coord="prj4.umt:433:93">event.target.value</samp>
+to get the value of the user id widget.
+</p></li><li data-coord="prj4.umt:437:0"><p data-coord="prj4.umt:437:8">Call the modified user list handler passing in the extra
+parameter to ensure that the results are returned as JSON.
+You can do that using <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch" data-coord="prj4.umt:437:229">fetch()</a> to fetch a JSON <samp data-coord="prj4.umt:437:253">response</samp> from your
+server and then extract the JSON using
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Body/json" data-coord="prj4.umt:437:378">response.json().</a>
+</p></li><li data-coord="prj4.umt:444:0"><p data-coord="prj4.umt:444:8">If the number of users contained in the extracted JSON is
+zero, output a suitable error.  
+</p></li></ol></li><li data-coord="prj4.umt:448:0"><p data-coord="prj4.umt:448:4">Iterate until you meet all requirements.  
+</p></li></ol><p data-coord="prj4.umt:450:0">It is a good idea to commit and push your project periodically
+whenever you have made significant changes.  When it is complete
+please follow the procedure given in the
+<em data-coord="prj4.umt:450:219"><a href="../../misc/git-setup/git-setup.html#prj-submit" data-coord="prj4.umt:450:219">git setup</a></em> document
+to submit your project to the TA via github.
+</p></section></section>
+    </div> <!-- #content -->
+  </body>
+</html>
