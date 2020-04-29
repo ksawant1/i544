@@ -8,5 +8,15 @@
   },
   "keywords": [],
   "author": "",
+<<<<<<< HEAD
   "license": "ISC"
+=======
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mustache": "^4.0.1"
+  }
+>>>>>>> ff4e26a1c149997fb3bd5969b80cd56e01384ca2
 }
