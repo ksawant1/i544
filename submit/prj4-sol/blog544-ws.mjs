@@ -31,6 +31,7 @@ export default class Blog544Ws {
 	throw `no web service for category ${category}`;
       }
       const response = await axios.get(url, { params: q });
+      //console.log(response.data)
       return response.data;
     }
     catch (err) {
