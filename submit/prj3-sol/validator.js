@@ -20,7 +20,9 @@ export default class Validator {
     const out = {};
     const infos = this.meta[category];
     if (!infos) {
-      throw [ new BlogError(`BAD_CATEGORY', 'unknown category ${category}`) ];
+      const err = new
+        BlogError(`BAD_CATEGORY', 'unknown category ${category}`, 'category');
+      throw [ err ];
     } 
     const errors = [];
     const required = new Set(this.actionFields[category][act].required);
@@ -31,18 +33,18 @@ export default class Validator {
       const info = infos[name];
       if (forbidden.has(name)) {
 	const msg = `the ${info.friendlyName} field is forbidden ${msgSuffix}`;
-	errors.push(new BlogError('BAD_FIELD', msg));
+	errors.push(new BlogError('BAD_FIELD', msg, name));
       }
       else if (name.startsWith('_')) {
 	out[name] = value;
       }
       else if (info === undefined) {
 	const msg = `unknown ${category} field ${name} ${msgSuffix}`;
-	errors.push(new BlogError('BAD_FIELD', msg));
+	errors.push(new BlogError('BAD_FIELD', msg, name));
       }
       else if (info.checkFn && !info.checkFn(value)) {
 	const msg = `bad value: ${value}; ${info.checkError} ${msgSuffix}`;
-	errors.push(new BlogError('BAD_FIELD_VALUE', msg));
+	errors.push(new BlogError('BAD_FIELD_VALUE', msg, name));
       }
       else {
 	out[name] = info.data ? info.data(value) : value;
@@ -53,7 +55,8 @@ export default class Validator {
 	    map(n => infos[n].friendlyName).
 	    join(', ');
       errors.push(new BlogError('MISSING_FIELD',
-				`missing ${names} fields ${msgSuffix}`));
+				`missing ${names} fields ${msgSuffix}`,
+			        names[0]));
     }
     if (errors.length > 0) throw errors;
     for (const name of optional) { //fill in default value for optional fields

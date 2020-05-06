@@ -92,7 +92,6 @@ export default class Blog544 {
    *  
    */
   async find(category, findSpecs={}) {
-
     const obj = this.validator.validate(category, 'find', findSpecs);
     return await this.data.find(category, obj);
   }

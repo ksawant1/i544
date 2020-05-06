@@ -28,7 +28,7 @@ export default class Data {
     }
     catch (err) {
       const msg = `cannot connect to URL "${dbUrl}": ${err}`;
-      throw [ new BlogError('DB', msg) ];
+      throw [ new BlogError('DB', msg, '_') ];
     }
     const db = client.db();
     const data = new Data(client, db, meta, options);
@@ -64,7 +64,7 @@ export default class Data {
     catch (err) {
       if (isDuplicateError(err)) {
 	const msg = `${category} object having id ${id} already exists`;
-	throw [ new BlogError('EXISTS', msg) ];
+	throw [ new BlogError('EXISTS', msg, 'id') ];
       }
       else {
 	throw err;
@@ -104,7 +104,7 @@ export default class Data {
       await collection.updateOne({ _id: dbUpdate._id }, { $set: set });
     if (ret.matchedCount !== 1) {
       const msg = `no ${category} for id ${updateSpec.id} in update`;
-      throw [ new BlogError('BAD_ID', msg) ];
+      throw [ new BlogError('BAD_ID', msg, 'id') ];
     }
   }
 
@@ -121,7 +121,7 @@ export default class Data {
       if (catIds.length > 0) {
 	const msg = `${category} ${removeSpec.id} referenced by ${field} ` +
                     `for ${cat} ${catIds}`;
-	errors.push(new BlogError('BAD_ID', msg));
+	errors.push(new BlogError('BAD_ID', msg, 'id'));
       }
     }
     if (errors.length > 0) throw errors;
@@ -130,7 +130,7 @@ export default class Data {
     const ret = await collection.deleteOne(dbRemove);
     if (ret.deletedCount !== 1) {
       const msg = `no ${category} for id ${removeSpec.id} in remove`;
-      throw [ new BlogError('BAD_ID', msg) ];
+      throw [ new BlogError('BAD_ID', msg, 'id') ];
     }
   }
 
@@ -166,7 +166,7 @@ export default class Data {
 	  const friendly = meta.fields[name].friendlyName;
 	  const msg = `invalid ${friendly} ${otherId} in ${otherCategory} ` +
  		      `for create ${category}`;
-	  errors.push(new BlogError('BAD_ID', msg));
+	  errors.push(new BlogError('BAD_ID', msg, 'id'));
 	}
       }
     }

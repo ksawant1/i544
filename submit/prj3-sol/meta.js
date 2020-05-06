@@ -12,6 +12,8 @@ Field properties:
   doIndex:      If true, then find should be facilitated by an index.
   required:     List of actions for which this field must be specified.
   forbidden:    List of actions for which this field must not be specified.
+  values:       widget value must be one of this list
+  multiValues:  widget value must be one-or-more of this list
 
 Every object has an id field which is used to uniquely identify that
 object within its category.  Note that id fields are alway index
@@ -87,6 +89,7 @@ const META = {
     {
       name: 'roles', 
       friendlyName: 'user roles',
+      multiValues: ROLES,
       checkFn:  v => v instanceof Array && v.length > 0 &&
 	             v.every(e => ROLES_SET.has(e)),
       checkError:
