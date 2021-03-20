@@ -3,9 +3,9 @@
 The data is organized in three categories:
 ## Users The people associated with the blog. Each person can have one-or-more
          roles of admin, author or commenter (the admin role is not used in this
-          project). Each user is identied using an externally generated id.
-## Articles The blog articles. Will have title and content elds, an authorId eld
-          identifying the author and a list of keywords. Each article is identied
+          project). Each user is identifed using an externally generated id.
+## Articles The blog articles. Will have title and content fields, an authorId 
+          identifying the author and a list of keywords. Each article is identifed
           using an internally generated id.
 ## Comments Comments associated with each blog article. A comment will have
           associated content. A comment will be associated with its corresponding
